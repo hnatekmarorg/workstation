@@ -8,7 +8,7 @@ jobs:
     runs-on: dind
     steps:
       - uses: actions/checkout@v2
-      - run: docker run -i --pull=always -v $(pwd):$(pwd) -w $(pwd) --rm quay.io/coreos/butane:release < ./coreos/base.yml > base.ign
+      - run: docker run -i --pull=always -v $(pwd):$(pwd) -w $(pwd) --rm quay.io/coreos/butane:release < ./butane/base.yml > base.ign
         name: Generate base config
       - run: docker run -u $(id -u):$(id -g) -i --rm --pull=always -v ./outputs:/data quay.io/coreos/coreos-installer:release download -C /data -s stable -p metal -f iso
         name: Download coreos ISO
