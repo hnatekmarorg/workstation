@@ -1,0 +1,72 @@
+variant: flatcar
+version: 1.0.0
+passwd:
+  users:
+    - name: root
+      ssh_authorized_keys:
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDFPly2MYEeh4FtFtftOa0qasGW4VNIzYv/ZzheQ/dFs martin@fedora
+storage:
+  files:
+    - path: /etc/containers/registries.conf.d/mirrors.conf
+      mode: 0644
+      contents:
+        inline: |
+          [[registry]]
+          location="mirror-docker-io.hnatekmar.xyz"
+          prefix="docker.io"
+
+          [[registry]]
+          location="mirror-gcr-io.hnatekmar.xyz"
+          prefix="gcr.io"
+
+          [[registry]]
+          location="mirror-ghcr-io.hnatekmar.xyz"
+          prefix="ghcr.io"
+
+          [[registry]]
+          location="mirror-quay-io.hnatekmar.xyz"
+          prefix="quay.io"
+
+  directories:
+    - path: /etc/ucore-autorebase
+      mode: 0754
+    - path: /mnt/k8s
+      mode: 0766
+systemd:
+  units:
+    - name: ucore-unsigned-autorebase.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=uCore autorebase to unsigned OCI and reboot
+        ConditionPathExists=!/etc/ucore-autorebase/unverified
+        ConditionPathExists=!/etc/ucore-autorebase/signed
+        After=network-online.target
+        Wants=network-online.target
+        [Service]
+        Type=oneshot
+        StandardOutput=journal+console
+        ExecStart=/usr/bin/rpm-ostree rebase --bypass-driver ostree-unverified-registry:ghcr.io/ublue-os/ucore:stable-nvidia
+        ExecStart=/usr/bin/touch /etc/ucore-autorebase/unverified
+        ExecStart=/usr/bin/systemctl disable ucore-unsigned-autorebase.service
+        ExecStart=/usr/bin/systemctl reboot
+        [Install]
+        WantedBy=multi-user.target
+    - name: ucore-signed-autorebase.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=uCore autorebase to signed OCI and reboot
+        ConditionPathExists=/etc/ucore-autorebase/unverified
+        ConditionPathExists=!/etc/ucore-autorebase/verified
+        After=network-online.target
+        Wants=network-online.target
+        [Service]
+        Type=oneshot
+        StandardOutput=journal+console
+        ExecStart=/usr/bin/rpm-ostree rebase --bypass-driver ostree-image-signed:docker://ghcr.io/ublue-os/ucore:stable-nvidia
+        ExecStart=/usr/bin/touch /etc/ucore-autorebase/signed
+        ExecStart=/usr/bin/systemctl disable ucore-signed-autorebase.service
+        ExecStart=/usr/bin/systemctl reboot
+        [Install]
+        WantedBy=multi-user.target

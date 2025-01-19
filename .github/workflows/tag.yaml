@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  release-it:
+    runs-on: gha-runner-scale-set
+    if: ${{ ! startsWith(github.event.head_commit.message, 'release') }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.TOKEN }}
+          fetch-tags: true
+          fetch-depth: 0
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: npm install -g release-it auto-changelog
+      - name: release-it
+        run: |-
+          git config --global user.email "release-it@algovectra.com"
+          git config --global user.name "release-it"
+          TOKEN="${{ secrets.TOKEN }}" release-it --ci
