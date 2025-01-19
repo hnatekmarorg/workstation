@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4.2.2
     - name: remove all docker images
-      run: docker rmi $(docker image ls -aq) --force
+      run: docker rmi $(docker image ls -aq) --force || true
     - uses: docker/login-action@v3
       with:
         registry: gitea.hnatekmar.xyz
