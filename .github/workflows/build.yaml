@@ -9,12 +9,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: docker run -i --pull=always -v $(pwd):$(pwd) -w $(pwd) --rm quay.io/coreos/butane:release < ./butane/base.yaml > base.ign
+      - run: docker run -i --pull=always -v $(pwd):$(pwd) -w $(pwd) --rm quay.io/coreos/butane:release < ./butane/base-without-gpu.yaml > base-without-gpu.ign
         name: Generate base config
       - run: docker run -u $(id -u):$(id -g) -i --rm --pull=always -v ./outputs:/data quay.io/coreos/coreos-installer:release download -C /data -s stable -p metal -f iso
         name: Download coreos ISO
       - run: mkdir -p outputs && mkdir -p package
       - run: |
           docker run -i --rm --pull=always -u $(id -u):$(id -g) -w $(pwd) -v .:$(pwd) quay.io/coreos/coreos-installer:release iso customize -o $(pwd)/package/workstation-${{github.ref_name}}.iso --dest-ignition $(pwd)/base.ign $(pwd)/outputs/*.iso --dest-device /dev/sda
+          docker run -i --rm --pull=always -u $(id -u):$(id -g) -w $(pwd) -v .:$(pwd) quay.io/coreos/coreos-installer:release iso customize -o $(pwd)/package/workstation-without-gpu-${{github.ref_name}}.iso --dest-ignition $(pwd)/base-without-gpu.ign $(pwd)/outputs/*.iso --dest-device /dev/sda
         name: Customize ISO
       - name: Upload ISO to s3
         uses: lovellfelix/minio-deploy-action@v1

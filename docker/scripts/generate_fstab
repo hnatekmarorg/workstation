@@ -1,0 +1,8 @@
+#!/bin/bash
+
+NAS=$1
+
+# Create paths
+showmount -e $NAS | awk 'NR>1{print $1}' | xargs -I {}  mkdir -p {}
+# Create mount points
+showmount -e $NAS | awk 'NR>1{print $1}' | xargs -I {} echo $NAS:{} $(echo {}) nfs4 auto 0 0 >> /etc/fstab.df
