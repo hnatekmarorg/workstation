@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     name: Build image
-    runs-on: docker dind
+    runs-on: dind
     steps:
     - uses: actions/checkout@v4.2.2
     - name: remove all docker images
