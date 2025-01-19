@@ -4,7 +4,7 @@ on:
       - main
 jobs:
   release-it:
-    runs-on: gha-runner-scale-set
+    runs-on: gha-runner-scale-set-hnatekmarorg
     if: ${{ ! startsWith(github.event.head_commit.message, 'release') }}
     steps:
       - name: Checkout
