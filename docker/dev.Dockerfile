@@ -18,7 +18,7 @@ ADD https://sh.rustup.rs /usr/bin/rustup-installer
 
 RUN chmod +x /usr/bin/rustup-installer && rustup-installer -y
 
-RUN cat /root/.bashrc  >> /etc/profile.d/99-default-bashrc
+RUN cat /root/.bashrc  >> /etc/profile.d/99-default-bashrc.sh && echo alias vim=nvim >> /etc/profile.d/98-override-vim.sh
 
 FROM base-image AS go-builder
 
@@ -35,7 +35,7 @@ RUN source /root/.bashrc && \
 
 FROM base-image AS rust-builder
 
-RUN . "$CARGO_HOME/env" && cargo install fd-find sd procs ripgrep bat hyperfine
+RUN . "$CARGO_HOME/env" && cargo install fd-find sd procs ripgrep bat hyperfine atuin
 
 FROM base-image
 
