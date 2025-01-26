@@ -3,6 +3,7 @@ ARG BASE=fedora:41
 FROM $BASE AS base-image
 
 ENV CARGO_HOME=/var/cargo
+ENV GOROOT=/opt/go
 ENV GOPATH=/var/go
 
 WORKDIR /dnf
@@ -11,16 +12,13 @@ RUN dnf update -y && dnf install -y jq curl wget git gcc make nvim openssl && dn
 
 ADD https://git.io/go-installer /usr/bin/go-installer
 
-RUN chmod +x /usr/bin/go-installer && go-installer
+RUN chmod +x /usr/bin/go-installer && go-installer && cat /root/.bashrc && ls
 
 ADD https://sh.rustup.rs /usr/bin/rustup-installer
 
 RUN chmod +x /usr/bin/rustup-installer && rustup-installer -y
 
-RUN echo export GOROOT=$GOPATH >> /etc/profile && \
-    echo export CARGO_HOME=$CARGO_HOME >> /etc/profile && \
-    echo export PATH=$PATH:$GOROOT/bin >> /etc/profile && \
-    echo . "/var/cargo/env" >> /etc/profile
+RUN cat /root/.bashrc  >> /etc/profile.d/99-default-bashrc
 
 FROM base-image AS go-builder
 
