@@ -39,5 +39,5 @@ jobs:
       - run: |
           cd docker
           docker system prune --all
-          docker build . -t gitea.hnatekmar.xyz/public/workstation:stable
+          docker build . -f dev.Dockerfile -t gitea.hnatekmar.xyz/public/workstation:stable
           docker push --all-tags gitea.hnatekmar.xyz/public/workstation

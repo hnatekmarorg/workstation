@@ -46,3 +46,4 @@ RUN chmod +x /usr/bin/get-helm && get-helm
 
 COPY --from=go-builder $GOPATH $GOPATH
 COPY --from=rust-builder $CARGO_HOME $CARGO_HOME
+
