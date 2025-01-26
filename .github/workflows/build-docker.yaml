@@ -38,6 +38,5 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - run: |
           cd docker
-          docker system prune --all
-          docker build . -f dev.Dockerfile -t gitea.hnatekmar.xyz/public/workstation:stable
+          DOCKER_BUILDKIT=1 docker build . -f dev.Dockerfile -t gitea.hnatekmar.xyz/public/workstation:stable
           docker push --all-tags gitea.hnatekmar.xyz/public/workstation

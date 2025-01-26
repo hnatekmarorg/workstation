@@ -5,6 +5,8 @@ FROM $BASE AS base-image
 ENV CARGO_HOME=/var/cargo
 ENV GOPATH=/var/go
 
+WORKDIR /dnf
+
 RUN dnf update -y && dnf install -y jq curl wget git gcc make nvim openssl && dnf clean all
 
 ADD https://git.io/go-installer /usr/bin/go-installer
@@ -22,6 +24,11 @@ RUN echo export GOROOT=$GOPATH >> /etc/profile && \
 
 FROM base-image AS go-builder
 
+# K9S requires special steps
+WORKDIR /k9s
+ADD https://github.com/derailed/k9s.git#v0.32.7 /k9s
+RUN source /root/.bashrc && make build
+
 # Compile packages from sources
 RUN source /root/.bashrc && \
     go install github.com/muesli/duf@v0.8.1 && \
@@ -29,7 +36,6 @@ RUN source /root/.bashrc && \
     go install github.com/junegunn/fzf@v0.58.0
 
 FROM base-image AS rust-builder
-
 
 RUN . "$CARGO_HOME/env" && cargo install fd-find sd procs ripgrep bat hyperfine
 
@@ -46,4 +52,4 @@ RUN chmod +x /usr/bin/get-helm && get-helm
 
 COPY --from=go-builder $GOPATH $GOPATH
 COPY --from=rust-builder $CARGO_HOME $CARGO_HOME
-
+COPY --from=go-builder /k9s/execs/ /usr/bin/
