@@ -51,3 +51,7 @@ RUN chmod +x /usr/bin/get-helm && get-helm
 COPY --from=go-builder $GOPATH $GOPATH
 COPY --from=rust-builder $CARGO_HOME $CARGO_HOME
 COPY --from=go-builder /k9s/execs/ /usr/bin/
+
+# Setup atuin
+RUN atuin gen-completions --shell bash >> /etc/profile.d/atuin.sh
+RUN echo eval "$(atuin init bash --disable-up-arrow)" >> /etc/profile.d/atuin.sh
