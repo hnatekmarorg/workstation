@@ -53,5 +53,5 @@ COPY --from=rust-builder $CARGO_HOME $CARGO_HOME
 COPY --from=go-builder /k9s/execs/ /usr/bin/
 
 # Setup atuin
-RUN atuin gen-completions --shell bash >> /etc/profile.d/atuin.sh
-RUN echo eval "$(atuin init bash --disable-up-arrow)" >> /etc/profile.d/atuin.sh
+RUN . "$CARGO_HOME/env" && atuin gen-completions --shell bash >> /etc/profile.d/atuin.sh
+RUN . "$CARGO_HOME/env" && echo eval "$(atuin init bash --disable-up-arrow)" >> /etc/profile.d/atuin.sh
