@@ -8,7 +8,7 @@ ENV GOPATH=/var/go
 
 WORKDIR /dnf
 
-RUN dnf update -y && dnf install -y jq curl wget git gcc make nvim openssl && dnf clean all
+RUN dnf update -y && dnf install -y jq curl wget git gcc make nvim openssl tcpdump && dnf clean all
 
 ADD https://git.io/go-installer /usr/bin/go-installer
 
@@ -35,7 +35,7 @@ RUN source /root/.bashrc && \
 
 FROM base-image AS rust-builder
 
-RUN . "$CARGO_HOME/env" && cargo install fd-find sd procs ripgrep bat hyperfine atuin
+RUN . "$CARGO_HOME/env" && cargo install fd-find sd procs ripgrep bat hyperfine atuin zoxide exa rustscan
 
 FROM base-image
 
@@ -58,3 +58,5 @@ RUN . "$CARGO_HOME/env" && echo eval "$(atuin init bash --disable-up-arrow)" >> 
 
 ADD https://raw.githubusercontent.com/ahmetb/kubectx/v0.9.5/kubectx /usr/bin
 ADD https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubens /usr/bin
+
+RUN dnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:TheLocehiliosan:yadm/Fedora_41/home:TheLocehiliosan:yadm.repo && dnf update && dnf install -y yadm && dnf clean all
