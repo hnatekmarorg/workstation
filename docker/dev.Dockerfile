@@ -31,11 +31,12 @@ RUN source /root/.bashrc && make build
 RUN source /root/.bashrc && \
     go install github.com/muesli/duf@v0.8.1 && \
     go install github.com/natesales/q@v0.19.2 && \
-    go install github.com/junegunn/fzf@v0.58.0
+    go install github.com/junegunn/fzf@v0.58.0 && \
+    go install github.com/mikefarah/yq/v4@v4.45.1
 
 FROM base-image AS rust-builder
 
-RUN . "$CARGO_HOME/env" && cargo install fd-find sd procs ripgrep bat hyperfine atuin zoxide exa rustscan
+RUN . "$CARGO_HOME/env" && cargo install zellij  fd-find sd procs ripgrep bat hyperfine atuin zoxide exa rustscan
 
 FROM base-image
 
@@ -58,5 +59,7 @@ RUN . "$CARGO_HOME/env" && echo eval "$(atuin init bash --disable-up-arrow)" >> 
 
 ADD https://raw.githubusercontent.com/ahmetb/kubectx/v0.9.5/kubectx /usr/bin
 ADD https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubens /usr/bin
+
+RUN chmod +x /usr/bin/kubectx && chmod +x /usr/bin/kubens
 
 RUN dnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:TheLocehiliosan:yadm/Fedora_41/home:TheLocehiliosan:yadm.repo && dnf update && dnf install -y yadm && dnf clean all
