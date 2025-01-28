@@ -55,3 +55,6 @@ COPY --from=go-builder /k9s/execs/ /usr/bin/
 # Setup atuin
 RUN . "$CARGO_HOME/env" && atuin gen-completions --shell bash >> /etc/profile.d/atuin.sh
 RUN . "$CARGO_HOME/env" && echo eval "$(atuin init bash --disable-up-arrow)" >> /etc/profile.d/atuin.sh
+
+ADD https://raw.githubusercontent.com/ahmetb/kubectx/v0.9.5/kubectx /usr/bin
+ADD https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubens /usr/bin
