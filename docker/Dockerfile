@@ -1,7 +1,7 @@
 ARG BASE=ghcr.io/ublue-os/ucore:stable-nvidia
 FROM $BASE
 
-RUN rpm-ostree install neovim git just
+RUN rpm-ostree install neovim git just fzf
 
 ADD scripts/* /usr/bin/
 
