@@ -20,6 +20,8 @@ RUN chmod +x /usr/bin/rustup-installer && rustup-installer -y
 
 RUN cat /root/.bashrc  >> /etc/profile.d/99-default-bashrc.sh && echo alias vim=nvim >> /etc/profile.d/98-override-vim.sh
 
+ADD static/distrobox_aliases.sh /etc/profile.d/
+
 FROM base-image AS go-builder
 
 # K9S requires special steps

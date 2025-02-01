@@ -1,0 +1,1 @@
+alias ujust='just -f /etc/operations.just --choose'
