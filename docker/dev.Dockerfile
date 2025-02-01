@@ -8,7 +8,7 @@ ENV GOPATH=/var/go
 
 WORKDIR /dnf
 
-RUN dnf update -y && dnf install -y jq curl wget git gcc make nvim openssl-devel perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump && dnf clean all
+RUN dnf update -y && dnf install -y jq curl wget git gcc make nvim openssl-devel perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump btop && dnf clean all
 
 ADD https://git.io/go-installer /usr/bin/go-installer
 
@@ -21,6 +21,7 @@ RUN chmod +x /usr/bin/rustup-installer && rustup-installer -y
 RUN cat /root/.bashrc  >> /etc/profile.d/99-default-bashrc.sh && echo alias vim=nvim >> /etc/profile.d/98-override-vim.sh
 
 ADD static/distrobox_aliases.sh /etc/profile.d/
+ADD static/common.sh /etc/profile.d/
 
 FROM base-image AS go-builder
 
@@ -38,7 +39,7 @@ RUN source /root/.bashrc && \
 
 FROM base-image AS rust-builder
 
-RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine atuin zoxide exa rustscan
+RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine atuin zoxide exa rustscan starship
 
 FROM base-image
 
@@ -65,3 +66,5 @@ ADD https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubens /usr/bin
 RUN chmod +x /usr/bin/kubectx && chmod +x /usr/bin/kubens
 
 RUN dnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:TheLocehiliosan:yadm/Fedora_41/home:TheLocehiliosan:yadm.repo && dnf update -y && dnf install -y yadm && dnf clean all
+
+RUN zoxide init bash >> /etc/profile.d/zoxide.sh
