@@ -8,7 +8,7 @@ ENV GOPATH=/var/go
 
 WORKDIR /dnf
 
-RUN dnf update -y && dnf install -y jq curl wget git gcc make nvim opentofu openssl-devel perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump btop cmake && dnf clean all
+RUN dnf update -y && dnf install -y jq curl wget git-lfs git gcc make nvim opentofu openssl-devel perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump btop cmake && dnf clean all
 
 ADD https://git.io/go-installer /usr/bin/go-installer
 
