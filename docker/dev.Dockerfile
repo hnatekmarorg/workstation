@@ -8,7 +8,7 @@ ENV GOPATH=/var/go
 
 WORKDIR /dnf
 
-RUN dnf update -y && dnf install -y jq curl wget git gcc make nvim openssl-devel perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump btop cmake && dnf clean all
+RUN dnf update -y && dnf install -y jq curl wget git gcc make nvim opentofu openssl-devel perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump btop cmake && dnf clean all
 
 ADD https://git.io/go-installer /usr/bin/go-installer
 
@@ -70,3 +70,6 @@ RUN dnf config-manager addrepo --from-repofile=https://download.opensuse.org/rep
 RUN . "$CARGO_HOME/env" && zoxide init bash >> /etc/profile.d/zoxide.sh
 
 RUN . "$CARGO_HOME/env" && echo $(starship init bash) >> /etc/bashrc
+
+RUN source /root/.bashrc && echo "$(fzf --bash)" >> /etc/profile.d/fzf.sh 
+
