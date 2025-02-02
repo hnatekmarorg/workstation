@@ -37,6 +37,8 @@ RUN source /root/.bashrc && \
     go install github.com/junegunn/fzf@v0.58.0 && \
     go install github.com/mikefarah/yq/v4@v4.45.1
 
+RUN echo "$(fzf --bash)" >> /etc/bashrc 
+
 FROM base-image AS rust-builder
 
 RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine atuin zoxide exa rustscan starship
@@ -70,5 +72,3 @@ RUN dnf config-manager addrepo --from-repofile=https://download.opensuse.org/rep
 RUN . "$CARGO_HOME/env" && zoxide init bash >> /etc/profile.d/zoxide.sh
 
 RUN . "$CARGO_HOME/env" && echo $(starship init bash) >> /etc/bashrc
-
-RUN echo "$(fzf --bash)" >> /etc/bashrc 
