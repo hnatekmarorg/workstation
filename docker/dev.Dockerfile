@@ -69,4 +69,4 @@ RUN dnf config-manager addrepo --from-repofile=https://download.opensuse.org/rep
 
 RUN . "$CARGO_HOME/env" && zoxide init bash >> /etc/profile.d/zoxide.sh
 
-RUN $(starship init bash) >> /etc/bashrc
+RUN . "$CARGO_HOME/env" && $(starship init bash) >> /etc/bashrc
