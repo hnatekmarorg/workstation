@@ -37,7 +37,7 @@ RUN source /root/.bashrc && \
     go install github.com/junegunn/fzf@v0.58.0 && \
     go install github.com/mikefarah/yq/v4@v4.45.1
 
-RUN source /root/.bashrc && echo "$(fzf --bash)" >> /etc/bashrc 
+RUN source /root/.bashrc && echo "$(fzf --bash)" >> /etc/.profile.d/fzf.sh 
 
 FROM base-image AS rust-builder
 
