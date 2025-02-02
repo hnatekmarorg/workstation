@@ -67,4 +67,4 @@ RUN chmod +x /usr/bin/kubectx && chmod +x /usr/bin/kubens
 
 RUN dnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:TheLocehiliosan:yadm/Fedora_41/home:TheLocehiliosan:yadm.repo && dnf update -y && dnf install -y yadm && dnf clean all
 
-RUN zoxide init bash >> /etc/profile.d/zoxide.sh
+RUN . "$CARGO_HOME/env" && zoxide init bash >> /etc/profile.d/zoxide.sh
