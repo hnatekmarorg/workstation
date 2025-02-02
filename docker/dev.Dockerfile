@@ -69,7 +69,4 @@ RUN dnf config-manager addrepo --from-repofile=https://download.opensuse.org/rep
 
 RUN . "$CARGO_HOME/env" && zoxide init bash >> /etc/profile.d/zoxide.sh
 
-RUN mkdir -p $GOPATH/src/github.com/openbao && cd $_ && git clone https://github.com/openbao/openbao.git && cd openbao && \
-    make bootstrap && \
-    make dev && \
-    mv ./bin/* /usr/local/bin && rm -rf ../openbao
+RUN $(starship init bash) >> /etc/bashrc
