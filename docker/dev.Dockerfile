@@ -71,5 +71,5 @@ RUN . "$CARGO_HOME/env" && zoxide init bash >> /etc/profile.d/zoxide.sh
 
 RUN . "$CARGO_HOME/env" && echo $(starship init bash) >> /etc/bashrc
 
-RUN source /root/.bashrc && echo "$(fzf --bash)" >> /etc/.profile.d/fzf.sh 
+RUN source /root/.bashrc && echo "$(fzf --bash)" >> /etc/profile.d/fzf.sh 
 
