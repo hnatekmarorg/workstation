@@ -68,3 +68,8 @@ RUN chmod +x /usr/bin/kubectx && chmod +x /usr/bin/kubens
 RUN dnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:TheLocehiliosan:yadm/Fedora_41/home:TheLocehiliosan:yadm.repo && dnf update -y && dnf install -y yadm && dnf clean all
 
 RUN . "$CARGO_HOME/env" && zoxide init bash >> /etc/profile.d/zoxide.sh
+
+RUN mkdir -p $GOPATH/src/github.com/openbao && cd $_ && git clone https://github.com/openbao/openbao.git && cd openbao && \
+    make bootstrap && \
+    make dev && \
+    mv ./bin/* /usr/local/bin && rm -rf ../openbao
