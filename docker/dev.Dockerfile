@@ -63,6 +63,15 @@ RUN . "$CARGO_HOME/env" && echo eval "$(atuin init bash --disable-up-arrow)" >> 
 ADD https://raw.githubusercontent.com/ahmetb/kubectx/v0.9.5/kubectx /usr/bin
 ADD https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubens /usr/bin
 
+ADD https://github.com/budimanjojo/talhelper/releases/download/v3.0.17/talhelper_linux_amd64.tar.gz /usr/bin/
+ADD https://github.com/siderolabs/talos/releases/download/v1.9.2/talosctl-linux-amd64 /usr/bin/
+
+RUN mv /usr/bin/talosctl-linux-amd64 /usr/bin/talosctl
+
+WORKDIR /usr/bin
+
+RUN tar xf talhelper_linux_amd64.tar.gz && rm talhelper_linux_amd64.tar.gz LICENSE README.md
+
 RUN chmod +x /usr/bin/kubectx && chmod +x /usr/bin/kubens
 
 RUN dnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:TheLocehiliosan:yadm/Fedora_41/home:TheLocehiliosan:yadm.repo && dnf update -y && dnf install -y yadm && dnf clean all
@@ -73,3 +82,5 @@ RUN . "$CARGO_HOME/env" && echo $(starship init bash) >> /etc/bashrc
 
 RUN source /root/.bashrc && echo "$(fzf --bash)" >> /etc/profile.d/fzf.sh 
 
+
+WORKDIR /root
