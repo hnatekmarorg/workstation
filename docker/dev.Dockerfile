@@ -8,7 +8,7 @@ ENV GOPATH=/var/go
 
 WORKDIR /dnf
 
-RUN dnf update -y && dnf install -y jq curl wget git-lfs git gcc make nvim opentofu openssl-devel perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump btop cmake && dnf clean all
+RUN dnf update -y && dnf install -y aria2 jq curl wget git-lfs git gcc make nmap nvim opentofu openssl-devel perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump btop cmake tldr && dnf clean all
 
 ADD https://git.io/go-installer /usr/bin/go-installer
 
@@ -39,7 +39,7 @@ RUN source /root/.bashrc && \
 
 FROM base-image AS rust-builder
 
-RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine atuin zoxide exa rustscan starship
+RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine atuin zoxide exa rustscan starship du-dust gping
 
 FROM base-image
 
