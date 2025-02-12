@@ -85,4 +85,6 @@ RUN source /root/.bashrc && echo "$(fzf --bash)" >> /etc/profile.d/fzf.sh
 # TODO: install this some other way
 RUN curl -L https://carvel.dev/install.sh | bash
 
+RUN chmod 777 /usr/bin/kube*
+
 WORKDIR /root
