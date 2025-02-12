@@ -82,5 +82,7 @@ RUN . "$CARGO_HOME/env" && echo $(starship init bash) >> /etc/bashrc
 
 RUN source /root/.bashrc && echo "$(fzf --bash)" >> /etc/profile.d/fzf.sh 
 
+# TODO: install this some other way
+RUN curl -L https://carvel.dev/install.sh | bash
 
 WORKDIR /root
