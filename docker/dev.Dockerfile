@@ -39,7 +39,7 @@ RUN source /root/.bashrc && \
 
 FROM base-image AS rust-builder
 
-RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine atuin zoxide exa rustscan starship du-dust gping
+RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine atuin zoxide exa rustscan starship du-dust gping podlet
 
 FROM base-image
 
