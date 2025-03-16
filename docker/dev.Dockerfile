@@ -39,7 +39,7 @@ RUN source /root/.bashrc && \
 
 FROM base-image AS rust-builder
 
-RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine atuin zoxide exa rustscan starship du-dust gping podlet
+RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine atuin zoxide exa rustscan starship du-dust gping podlet teller
 
 FROM base-image
 
@@ -83,6 +83,8 @@ RUN source /root/.bashrc && echo "$(fzf --bash)" >> /etc/profile.d/fzf.sh
 
 # TODO: install this some other way
 RUN curl -L https://carvel.dev/install.sh | bash
+
+RUN dnf install -y dnf-plugins-core && dnf config-manager addrepo --from-repofile=https://rpm.releases.hashicorp.com/fedora/hashicorp.repo && dnf -y install vault
 
 RUN chmod 777 /usr/bin/kube*
 
