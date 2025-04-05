@@ -18,7 +18,7 @@ ADD https://sh.rustup.rs /usr/bin/rustup-installer
 
 RUN chmod +x /usr/bin/rustup-installer && rustup-installer -y
 
-RUN cat /root/.bashrc  >> /etc/profile.d/99-default-bashrc.sh && echo alias vim=nvim >> /etc/profile.d/98-override-vim.sh
+RUN cat /root/.bashrc  >> /etc/profile.d/97-default-bashrc.sh && echo alias vim=nvim >> /etc/profile.d/98-override-vim.sh
 
 ADD static/distrobox_aliases.sh /etc/profile.d/
 ADD static/common.sh /etc/profile.d/
@@ -35,14 +35,15 @@ RUN source /root/.bashrc && \
     go install github.com/muesli/duf@v0.8.1 && \
     go install github.com/natesales/q@v0.19.2 && \
     go install github.com/junegunn/fzf@v0.58.0 && \
-    go install github.com/mikefarah/yq/v4@v4.45.1
+    go install github.com/mikefarah/yq/v4@v4.45.1 && \
+    go install github.com/jesseduffield/lazygit@v0.48.0
 
 FROM base-image AS rust-builder
 
 RUN curl -L -o protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v30.1/protoc-30.1-linux-x86_64.zip && unzip protoc.zip && mv bin/protoc /usr/bin/
 
-RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine atuin zoxide exa rustscan starship du-dust gping podlet
-
+RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine zoxide exa rustscan starship du-dust gping podlet
+RUN . "$CARGO_HOME/env" && cargo install --locked atuin 
 FROM base-image
 
 # kubectl
