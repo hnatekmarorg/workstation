@@ -87,7 +87,10 @@ RUN source /root/.bashrc && echo "$(fzf --bash)" >> /etc/profile.d/fzf.sh
 # TODO: install this some other way
 RUN curl -L https://carvel.dev/install.sh | bash
 
-RUN dnf install -y dnf-plugins-core && dnf config-manager addrepo --from-repofile=https://rpm.releases.hashicorp.com/fedora/hashicorp.repo && dnf -y install vault
+WORKDIR /rpm
+COPY https://github.com/openbao/openbao/releases/download/v2.2.0/bao_2.2.0_linux_amd64.rpm .
+
+RUN dnf install -y ./bao_2.2.0_linux_amd64.rpm
 
 RUN chmod 777 /usr/bin/kube*
 
