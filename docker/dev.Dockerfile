@@ -86,7 +86,7 @@ RUN source /root/.bashrc && echo "$(fzf --bash)" >> /etc/profile.d/fzf.sh
 
 # TODO: install this some other way
 RUN curl -L https://carvel.dev/install.sh | bash
-
+ENV PATH=/root/.local/bin:$PATH
 RUN /bin/bash -c 'python3 -m pip install aider-install && aider-install'
 
 WORKDIR /rpm
