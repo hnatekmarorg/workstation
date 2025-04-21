@@ -8,7 +8,7 @@ ENV GOPATH=/var/go
 
 WORKDIR /dnf
 
-RUN dnf update -y && dnf install -y iputils aria2 jq curl wget git-lfs git gcc make ranger nvim opentofu openssl-devel perl-Digest-SHA perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump btop cmake tldr && dnf clean all
+RUN dnf update -y && dnf install -y python3 iputils aria2 jq curl wget git-lfs git gcc make ranger nvim opentofu openssl-devel perl-Digest-SHA perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump btop cmake tldr && dnf clean all
 
 ADD https://git.io/go-installer /usr/bin/go-installer
 
@@ -87,7 +87,7 @@ RUN source /root/.bashrc && echo "$(fzf --bash)" >> /etc/profile.d/fzf.sh
 # TODO: install this some other way
 RUN curl -L https://carvel.dev/install.sh | bash
 
-RUN python -m pip install aider-install && aider-install
+RUN python3 -m pip install aider-install && aider-install
 
 WORKDIR /rpm
 ADD https://github.com/openbao/openbao/releases/download/v2.2.0/bao_2.2.0_linux_amd64.rpm .
