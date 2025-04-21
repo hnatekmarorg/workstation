@@ -87,7 +87,7 @@ RUN source /root/.bashrc && echo "$(fzf --bash)" >> /etc/profile.d/fzf.sh
 # TODO: install this some other way
 RUN curl -L https://carvel.dev/install.sh | bash
 
-RUN python3 -m pip install aider-install && aider-install
+RUN /bin/bash -c 'python3 -m pip install aider-install && aider-install'
 
 WORKDIR /rpm
 ADD https://github.com/openbao/openbao/releases/download/v2.2.0/bao_2.2.0_linux_amd64.rpm .
