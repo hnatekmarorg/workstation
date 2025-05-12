@@ -94,6 +94,10 @@ ADD https://github.com/openbao/openbao/releases/download/v2.2.0/bao_2.2.0_linux_
 
 RUN dnf install -y ./bao_2.2.0_linux_amd64.rpm
 
+RUN curl -Lo /usr/local/bin/clusterctl "https://github.com/kubernetes-sigs/cluster-api/releases/download/v1.5.0/clusterctl-$(uname -s | tr '[:upper:]' '[:lower:]')-amd64" && chmod +x /usr/local/bin/clusterctl
+
+RUN chmod -R g+xr,u+xr /var/go/
+
 RUN chmod 777 /usr/bin/kube*
 
 WORKDIR /root
