@@ -8,7 +8,7 @@ ENV GOPATH=/var/go
 
 WORKDIR /dnf
 
-RUN dnf update -y && dnf install -y python3 python3-pip iputils aria2 jq curl wget git-lfs git gcc make ranger nvim opentofu openssl-devel perl-Digest-SHA perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump btop cmake tldr && dnf clean all
+RUN dnf update -y && dnf install -y python3 python3-pip iputils aria2 zsh jq curl wget git-lfs git gcc make ranger nvim opentofu openssl-devel perl-Digest-SHA perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump btop cmake tldr && dnf clean all
 
 ADD https://git.io/go-installer /usr/bin/go-installer
 
@@ -95,6 +95,8 @@ ADD https://github.com/openbao/openbao/releases/download/v2.2.0/bao_2.2.0_linux_
 RUN dnf install -y ./bao_2.2.0_linux_amd64.rpm
 
 RUN curl -Lo /usr/local/bin/clusterctl "https://github.com/kubernetes-sigs/cluster-api/releases/download/v1.5.0/clusterctl-$(uname -s | tr '[:upper:]' '[:lower:]')-amd64" && chmod +x /usr/local/bin/clusterctl
+
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 RUN chmod -R g+xr,u+xr /var/go/
 
