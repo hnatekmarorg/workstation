@@ -18,8 +18,6 @@ ADD https://sh.rustup.rs /usr/bin/rustup-installer
 
 RUN chmod +x /usr/bin/rustup-installer && rustup-installer -y
 
-RUN cat /root/.bashrc  >> /etc/profile.d/97-default-bashrc.sh && echo alias vim=nvim >> /etc/profile.d/98-override-vim.sh
-
 ADD static/distrobox_aliases.sh /etc/profile.d/
 ADD static/common.sh /etc/profile.d/
 
