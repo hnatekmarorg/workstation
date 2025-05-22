@@ -42,7 +42,7 @@ FROM base-image AS rust-builder
 
 RUN curl -L -o protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v30.1/protoc-30.1-linux-x86_64.zip && unzip protoc.zip && mv bin/protoc /usr/bin/
 
-RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine zoxide exa rustscan starship du-dust gping podlet
+RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine zoxide exa rustscan du-dust gping podlet
 RUN . "$CARGO_HOME/env" && cargo install --locked atuin 
 FROM base-image
 
@@ -60,7 +60,7 @@ COPY --from=rust-builder $CARGO_HOME $CARGO_HOME
 COPY --from=go-builder /k9s/execs/ /usr/bin/
 
 # Setup atuin
-RUN . "$CARGO_HOME/env" && echo eval "$(atuin init bash --disable-up-arrow)" >> /etc/profile.d/99-atuin.sh
+RUN . "$CARGO_HOME/env" && echo eval "$(atuin init zsh --disable-up-arrow)" >> /etc/profile.d/99-atuin.sh
 
 ADD https://raw.githubusercontent.com/ahmetb/kubectx/v0.9.5/kubectx /usr/bin
 ADD https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubens /usr/bin
@@ -78,11 +78,9 @@ RUN chmod +x /usr/bin/kubectx && chmod +x /usr/bin/kubens
 
 RUN dnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:TheLocehiliosan:yadm/Fedora_41/home:TheLocehiliosan:yadm.repo && dnf update -y && dnf install -y yadm && dnf clean all
 
-RUN . "$CARGO_HOME/env" && zoxide init bash >> /etc/profile.d/zoxide.sh
+RUN . "$CARGO_HOME/env" && zoxide init zsh >> /etc/profile.d/zoxide.sh
 
-RUN . "$CARGO_HOME/env" && echo $(starship init bash) >> /etc/bashrc
-
-RUN source /root/.bashrc && echo "$(fzf --bash)" >> /etc/profile.d/fzf.sh 
+RUN source /root/.bashrc && echo "$(fzf --zsh)" >> /etc/profile.d/fzf.sh 
 
 # TODO: install this some other way
 RUN curl -L https://carvel.dev/install.sh | bash
@@ -98,7 +96,7 @@ RUN curl -Lo /usr/local/bin/clusterctl "https://github.com/kubernetes-sigs/clust
 
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-RUN chmod -R g+xr,u+xr /var/go/
+RUN chmod -R g+wxr,u+wxr /var/go/
 
 RUN chmod 777 /usr/bin/kube*
 
