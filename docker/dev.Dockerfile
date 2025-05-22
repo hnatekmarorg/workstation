@@ -80,7 +80,7 @@ RUN dnf config-manager addrepo --from-repofile=https://download.opensuse.org/rep
 
 RUN . "$CARGO_HOME/env" && zoxide init zsh >> /etc/profile.d/zoxide.sh
 
-RUN source /root/.bashrc && echo "$(fzf --zsh)" >> /etc/profile.d/fzf.sh 
+# RUN source /root/.bashrc && echo "$(fzf --zsh)" >> /etc/profile.d/fzf.sh 
 
 # TODO: install this some other way
 RUN curl -L https://carvel.dev/install.sh | bash
