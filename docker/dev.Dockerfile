@@ -43,7 +43,7 @@ FROM base-image AS rust-builder
 RUN curl -L -o protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v30.1/protoc-30.1-linux-x86_64.zip && unzip protoc.zip && mv bin/protoc /usr/bin/
 
 RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine zoxide exa rustscan du-dust gping podlet
-RUN . "$CARGO_HOME/env" && cargo install --locked atuin 
+
 FROM base-image
 
 # kubectl
@@ -58,9 +58,6 @@ RUN chmod +x /usr/bin/get-helm && get-helm
 COPY --from=go-builder $GOPATH $GOPATH
 COPY --from=rust-builder $CARGO_HOME $CARGO_HOME
 COPY --from=go-builder /k9s/execs/ /usr/bin/
-
-# Setup atuin
-RUN . "$CARGO_HOME/env" && echo eval "$(atuin init zsh --disable-up-arrow)" >> /etc/profile.d/99-atuin.sh
 
 ADD https://raw.githubusercontent.com/ahmetb/kubectx/v0.9.5/kubectx /usr/bin
 ADD https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubens /usr/bin
