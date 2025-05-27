@@ -8,7 +8,14 @@ ENV GOPATH=/var/go
 
 WORKDIR /dnf
 
-RUN dnf update -y && dnf install -y python3 python3-pip direnv iputils aria2 zsh jq curl wget git-lfs git gcc make ranger nvim opentofu openssl-devel perl-Digest-SHA perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump btop cmake tldr && dnf clean all
+RUN dnf update -y && dnf install -y python3 python3-pip direnv iputils aria2 zsh jq curl wget git-lfs git gcc make ranger opentofu openssl-devel perl-Digest-SHA perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump btop cmake tldr && dnf clean all
+
+# Install latest Neovim release
+RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz && \
+    tar xzf nvim-linux64.tar.gz && \
+    cp -r nvim-linux64/* /usr/ && \
+    ln -sf /usr/bin/nvim /usr/local/bin/nvim && \
+    rm -rf nvim-linux64 nvim-linux64.tar.gz
 
 ADD https://git.io/go-installer /usr/bin/go-installer
 
