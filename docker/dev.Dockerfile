@@ -10,7 +10,7 @@ WORKDIR /dnf
 
 RUN dnf update -y && dnf install -y python3 python3-pip direnv iputils aria2 zsh jq curl wget git-lfs git gcc make ranger opentofu openssl-devel perl-Digest-SHA perl-IPC-Cmd perl-FindBin perl-devel openssl tcpdump btop cmake tldr && dnf clean all
 
-RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz && \
+RUN curl -LO https://github.com/neovim/neovim/releases/download/v0.11.1/nvim-linux-x86_64.tar.gz && \
     file nvim-linux64.tar.gz | grep gzip || { echo "Downloaded file is not a gzip archive"; exit 1; } && \
     tar xzf nvim-linux64.tar.gz && \
     cp -r nvim-linux64/* /usr/ && \
