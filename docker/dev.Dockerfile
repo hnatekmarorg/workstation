@@ -46,7 +46,7 @@ FROM base-image AS rust-builder
 
 RUN curl -L -o protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v30.1/protoc-30.1-linux-x86_64.zip && unzip protoc.zip && mv bin/protoc /usr/bin/
 
-RUN . "$CARGO_HOME/env" && cargo install zellij git-delta fd-find sd procs ripgrep bat hyperfine zoxide exa rustscan du-dust gping podlet
+RUN . "$CARGO_HOME/env" && cargo install aichat zellij git-delta fd-find sd procs ripgrep bat hyperfine zoxide exa rustscan du-dust gping podlet
 
 FROM base-image
 
