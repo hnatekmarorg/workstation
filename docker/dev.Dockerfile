@@ -3,6 +3,7 @@ ARG BASE=fedora:41
 FROM $BASE AS base-image
 
 ENV CARGO_HOME=/var/cargo
+ENV PATH=$CARGO_HOME/bin:$PATH
 ENV GOROOT=/opt/go
 ENV GOPATH=/var/go
 
@@ -12,9 +13,9 @@ RUN dnf update -y && dnf install -y python3 python3-pip direnv iputils aria2 zsh
 
 RUN curl -LO https://github.com/neovim/neovim/releases/download/v0.11.1/nvim-linux-x86_64.tar.gz && ls -lah && \
     tar xzf nvim-linux-x86_64.tar.gz && ls -lah && \
-    cp -r nvim-linux64/* /usr/ && \
+    cp -r nvim-linux-x86_64/* /usr/ && \
     ln -sf /usr/bin/nvim /usr/local/bin/nvim && \
-    rm -rf nvim-linux64 nvim-linux-x86_64.tar.gz
+    rm -rf nvim-linux-x86_64 nvim-linux-x86_64.tar.gz
 
 ADD https://git.io/go-installer /usr/bin/go-installer
 
@@ -79,13 +80,13 @@ RUN chmod +x /usr/bin/kubectx && chmod +x /usr/bin/kubens
 
 RUN dnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:TheLocehiliosan:yadm/Fedora_41/home:TheLocehiliosan:yadm.repo && dnf update -y && dnf install -y yadm && dnf clean all
 
-RUN . "$CARGO_HOME/env" && zoxide init zsh >> /etc/profile.d/zoxide.sh
+RUN . "$CARGO_HOME/env" && zoxide init bash >> /etc/profile.d/zoxide.sh
 
 # RUN source /root/.bashrc && echo "$(fzf --zsh)" >> /etc/profile.d/fzf.sh 
 
 # TODO: install this some other way
 RUN curl -L https://carvel.dev/install.sh | bash
-ENV PATH=/root/.local/bin:$PATH
+ENV PATH=$CARGO_HOME/bin:/root/.local/bin:$PATH
 RUN /bin/bash -c 'python3 -m pip install aider-install && aider-install'
 
 WORKDIR /rpm
